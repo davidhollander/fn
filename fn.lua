@@ -8,16 +8,10 @@
 -- It aims to support the manipulation of ordered data via both Lua Tables and Lua multi arity arguments.
 -- It will avoid implementing library functions in terms of each other to reduce the height of the call stack for end users.
 
-module(..., package.seeall)
+module(... or 'fn', package.seeall)
 -- set(t, k, v): functional __newindex
 function set(t, k, v)
   t[k]=v
-  return true
-end
-
--- let(k,v): modify current scope
-function let(k, v)
-  getfenv()[k]=v
   return true
 end
 
@@ -60,6 +54,32 @@ function fill(...)
   local n=select('#',...)
   local t={...}
   return function(fn) return fn(unpack(t,1,n)) end
+end
+
+-- filter(fn, ...): returns args where fn evaluates true
+function filter(fn, ...)
+  local n, t = select('#', ...), {...}
+  local t2={}
+  for i=1,n do
+    if fn(t[i]) then table.insert(t2,t[i]) end
+  end
+  return unpack(t2)
+end
+-- filtert(fn, t): returns a copy of t containing elements where fn(t[i])==true
+function filtert(fn, t)
+  local t2={}
+  for i=1,#t do
+    if fn(t[i]) then table.insert(t2,t[i]) end
+  end
+  return t2
+end
+--filterpairs(fn, t): returns a copy of table t containing pairs where fn(k,v)==true
+function filterpairs(fn, t)
+  local t2={}
+  for k,v in pairs(t) do
+    if fn(k,v) then t2[k]=v end
+  end
+  return t2
 end
 
 -- partial(fn, ...): store fn and args, return lambda

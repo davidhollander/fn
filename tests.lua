@@ -6,17 +6,13 @@
 -- If an error is found, please raise an issue on github or via gmail: dhllndr.
 
 require 'fn'
+for k,v in pairs(fn) do _G[k]=v end
 local test={}
 
 test.set = function()
   local t={}
   set(t, 'foo', 'bar')
   assert(t.foo=='bar')
-end
-
-test.let = function()
-  local x = let('x', 1) and x + x
-  assert(x==2)
 end
 
 test.tuple = function()
@@ -131,6 +127,27 @@ test.composen = function()
     assert(t[2]==8)
   end
   x(fn(4,8,nil))
+end
+
+test.filter = function()
+  local function check(...)
+    local n, t = select('#', ...), {...}
+    assert(n==4)
+    assert(t[1]+t[2]+t[3]+t[4]==6+7+8+9)
+  end
+  check(filter(function(el) return el>5 end, 1,2,3,4,5,6,7,8,9))
+end
+
+test.filtert = function()
+  local t = filtert(function(el) return el>5 end,{1,2,3,4,5,6,7,8,9})
+  assert(#t==4)
+  assert(t[1]+t[2]+t[3]+t[4]==6+7+8+9)
+end
+
+test.filterpairs = function()
+  local t = filterpairs(function(k,v) if k==v then return true end end,{
+    key='key', foo='bar', name='blame', game='same', baz='baz'})
+  assert(t.key and t.baz and not t.name)
 end
 
 for k,fn in pairs(test) do
