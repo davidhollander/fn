@@ -1,5 +1,13 @@
 # fn.lua
 
+### About
+fn.lua provides functional programming extras for Lua and LuaJIT.
+Unlike some other functional libraries, it preserves ending nil values by using "select".
+It aims to support the manipulation of ordered data using both traditional tables and multi arity arguments, rather than creating a new array type.
+It will avoid implementing library functions in terms of each other to reduce the height of the call stack for end users.
+
+
+### Getting Started
 Copy fn.lua into your lua module directory. On Ubuntu, this is /usr/local/share/lua/5.1/
 
 importing
