@@ -125,10 +125,16 @@ end
 -- mapt(fn, table): return a copy of table, with each element transformed by fn
 function mapt(fn, t)
   local t2={}
-  for i=1,#t do t2[i]=fn(t[i]) end
+  for i,v in ipairs(t) do t2[i]=fn(v) end
   return t2
 end
 
+-- mapkeys(fn, table): return a list of keys from table [t] transformed by [fn]
+function mapkeys(fn, t)
+  local t2={}
+  for k,v in pairs(t) do table.insert(t2, fn(k)) end
+  return t2
+end
 -- foldl(fn, ...): use fn to left fold args
 function foldl(fn, ...)
   local n=select('#',...)

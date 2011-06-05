@@ -79,6 +79,12 @@ test.mapt = function()
   assert(out[1]+out[2]+out[3] == 12)
 end
 
+test.mapkeys = function()
+  local out = mapkeys(function(x) return x.."2" end, {foo=true,bar=true})
+  local str=table.concat(out)
+  assert(str=='foo2bar2' or str=='bar2foo2')
+end
+
 test.foldl = function(fn, ...)
   local v = foldl(function(a,b) return a-b end, 1,2,3,4,5)
   assert(v == -13)
