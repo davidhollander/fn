@@ -15,6 +15,11 @@ function set(t, k, v)
   return true
 end
 
+--get(t, k): functional __index
+function get(t, k)
+  return t[k]
+end
+
 -- tuple(...): stores values, returns lambda
 -- lambda(): returns all values
 function tuple(...)

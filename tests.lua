@@ -15,6 +15,12 @@ test.set = function()
   assert(t.foo=='bar')
 end
 
+test.get = function()
+  local t={}
+  t['foo']='bar'
+  assert(get(t,'foo')==t.foo)
+end
+
 test.tuple = function()
   local x = tuple(1,2,nil,3,nil)
   local function t(...)
