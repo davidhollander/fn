@@ -9,6 +9,22 @@ require 'fn'
 for k,v in pairs(fn) do _G[k]=v end
 local test={}
 
+test.clock = function()
+  local function fast() return true end
+  local function slow(n)
+    local x=''
+    for i=1,n do x=x..i..n..i..n end
+  end
+  assert(clock(fast,100)<clock(slow,100,1000))
+end
+
+test.mapti = function()
+  local t={1,2,3,4}
+  mapti(function(x) return x*2 end,t)
+  for i,v in ipairs(t) do assert(2*i==v) end
+end
+
+
 test.set = function()
   local t={}
   set(t, 'foo', 'bar')

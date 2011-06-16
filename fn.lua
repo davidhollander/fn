@@ -19,6 +19,12 @@ end
 function get(t, k)
   return t[k]
 end
+---call a function k times with ..., return time taken
+function clock(fn, k, ...)
+  local c=os.clock()
+  for i=1,k do fn(...) end
+  return os.clock() -c
+end
 
 -- tuple(...): stores values, returns lambda
 -- lambda(): returns all values
@@ -127,6 +133,10 @@ function mapt(fn, t)
   local t2={}
   for i,v in ipairs(t) do t2[i]=fn(v) end
   return t2
+end
+-- in place map
+function mapti(fn, t)
+  for i,v in ipairs(t) do t[i]=fn(v) end
 end
 
 -- mapkeys(fn, table): return a list of keys from table [t] transformed by [fn]
